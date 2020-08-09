@@ -6,9 +6,11 @@ A Pythonic Email assistant which converts your emails into a `Task` on your favo
 
 Motivation
 ----------
-My dread for point-and-click interaction with applications including task-managers drives me towards CLI - but don't live there. I am not very organized and slip on even adding the tasks regularly - much less marking them complete. I also want something that can remind me on the go - with a right swipe on what's next, or my phone, or whatever device I chose to. But, yet - supports automation and prioritization. After years of jumping between solutions, Taskwarrior has come as the closest to the system that would work for me. But, I am not that organized to maintain my tasks there.
+I am not very organized and occasionally slip even on adding the tasks regularly - much less marking them complete. 
 
-One thing I always do is interact with my emails - I'm good at sending emails - and without leaving the application. Hence, came the notion for this utility -- as a necessity to create tasks from Emails - something I use all the time. The fundamental ability to convert an email into task offers endless possibilities - for more on that, please see the wishlist at the end.
+My dread for point-and-click interaction with applications including task-managers drives me towards CLI - but I don't live there. But, for usability, it is best to have a friendly applicaiton that can remind me on the go - with a right swipe on what's next, or my phone, or whatever device I chose to. But, yet - supports automation and prioritization. After years of jumping between solutions, Taskwarrior has come as the closest to the system that would work for me. Alas! I am not that organized to maintain my tasks there.
+
+One thing I always do is email - and without leaving the application. Hence, came the notion for this utility -- as a necessity to create tasks from Emails - something I use all the time. The fundamental ability to convert an email into task offers endless possibilities - for more on that, please see the wishlist at the end.
 
 Installation
 ------------
