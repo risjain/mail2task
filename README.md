@@ -39,14 +39,14 @@ Espanso Templates
 -----------------
 Espanso is such an excellent tool, with so many great features. Using two of its very useful features - Clipboard extension, and Passive mode (https://espanso.org/docs/).
 
-1. (Type and) Cut the Description to be converted into the task. Espanso can wrap the clipboard data into a predefined format - :todoparse/$|$,+2d,2,{{clipboard}}/. Upon cutting the description - pressing `:todo` will invoke the said format before JSON.
-
+1. (Type and) Cut the Description to be converted into the task. Espanso can wrap the clipboard data into a predefined format - :todoparse/$|$,+2d,2,{{clipboard}}/. Upon cutting the description - pressing `:todo` will invoke the said format before JSON:
+```
     - trigger: ":todo"
       replace: ":todoparse/$|$,+2d,2,{{clipboard}}/"
       vars:
         - name: "clipboard"
           type: "clipboard"
-
+```
 2. Updating the details of the task: Project name, changing the due date (default - +2d) and priority (2 - Normal). Then you need to select the entire line and press your PASSIVE_TRIGGER key twice to get the template: 
     {^project^:^NAME_OF_PROJECT^, ^due_in^:^TIME_OFFSET^, ^priority^:^0--4^,^title^:^DEFINE_THE_TASK^}
 
@@ -61,7 +61,7 @@ The respective espanso setting is below:
 Suggestions/improvements are welcome to make this simpler. I have some ideas in the wishlist that would be neat to find their way into this utility.
 
 
-Disclaimer: Use of `espanso' is highly recommended. 
+Disclaimer: Use of `espanso` is highly recommended. 
 
 
 Vision
