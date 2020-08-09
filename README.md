@@ -16,7 +16,7 @@ Installation
 
 2. The project uses `EZGMAIL` (https://github.com/asweigart/ezgmail) and `PYTODOIST` (https://github.com/Garee/pytodoist) as the fundamental libraries you need to have. Accordingly, you will need to setup the API access - as per the documentation for gmail, TODOIST respectively. Please refer the the respective projects and the service providers (GMAIL, TODOIST) for more details.
 
-3. After setting up the tokens for accessing GMAIL, TODOIST - the application should just work. Please review `main.py' to ensure.
+3. After setting up the tokens for accessing GMAIL, TODOIST - the application should just work. Please review `main.py` to ensure.
 
 Syntax of EMAILs
 ----------------
@@ -72,7 +72,7 @@ This application aspires to decouple the design choices between the available pl
 
 Structure
 ---------
-In the traditional pythonic way, the application is an orchestra of different agents specializing in specific tasks. I currently have `4' broaders types of classes representing the specific functionalities.
+In the traditional pythonic way, the application is an orchestra of different agents specializing in specific tasks. I currently have `4` broaders types of classes representing the specific functionalities.
 - Email interpreter - reads the emails
 - Generic Tasks - Defines the generic task structure
 - Task interpreter - Converts the read email to a task with due dates, etc
@@ -102,4 +102,4 @@ Wishlist
 
 Contribute
 ----------
-Please check out to me on risjain.github.io or via a PR - to suggest improvements or suggestions. 
+Please check out to me on https://risjain.github.io/ or via a PR - for improvements or suggestions. 
