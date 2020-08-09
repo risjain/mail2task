@@ -14,7 +14,7 @@ Installation
 ------------
 1. There is no pip based installation (for now). Currently, I plan to clone the library to a cloud VM and CRONTAB my assistant to update my TODOIST.
 
-2. The project uses `EZGMAIL' (https://github.com/asweigart/ezgmail) and `PYTODOIST' (https://github.com/Garee/pytodoist) as the fundamental libraries you need to have. Accordingly, you will need to setup the API access - as per the documentation for gmail, TODOIST respectively. Please refer the the respective projects and the service providers (GMAIL, TODOIST) for more details.
+2. The project uses `EZGMAIL` (https://github.com/asweigart/ezgmail) and `PYTODOIST` (https://github.com/Garee/pytodoist) as the fundamental libraries you need to have. Accordingly, you will need to setup the API access - as per the documentation for gmail, TODOIST respectively. Please refer the the respective projects and the service providers (GMAIL, TODOIST) for more details.
 
 3. After setting up the tokens for accessing GMAIL, TODOIST - the application should just work. Please review `main.py' to ensure.
 
