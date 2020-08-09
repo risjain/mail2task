@@ -39,7 +39,7 @@ Espanso Templates
 -----------------
 Espanso is such an excellent tool, with so many great features. Using two of its very useful features - Clipboard extension, and Passive mode (https://espanso.org/docs/).
 
-1. (Type and) Cut the Description to be converted into the task. Espanso can wrap the clipboard data into a predefined format - :todoparse/$|$,+2d,2,{{clipboard}}/. Upon cutting the description - pressing `:todo' will invoke the said format before JSON.
+1. (Type and) Cut the Description to be converted into the task. Espanso can wrap the clipboard data into a predefined format - :todoparse/$|$,+2d,2,{{clipboard}}/. Upon cutting the description - pressing `:todo` will invoke the said format before JSON.
 
     - trigger: ":todo"
       replace: ":todoparse/$|$,+2d,2,{{clipboard}}/"
