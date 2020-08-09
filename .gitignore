@@ -1,0 +1,7 @@
+# Exclude token definitions
+init_file.py
+
+# All security tokens from gmail, others
+*.json
+
+
