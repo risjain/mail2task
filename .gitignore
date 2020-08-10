@@ -1,7 +1,10 @@
-# Exclude token definitions
-init_file.py
+# Ignore everything
+*
 
-# All security tokens from gmail, others
-*.json
-
-
+# But not these files...
+!LICENSE
+!README.md
+!email2do.py
+!get_sched_time.py
+!main.py
+!pytodoist_agent.py
