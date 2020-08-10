@@ -28,7 +28,7 @@ my_gmail.refresh_unread_threads()
 # my_gmail.mark_as_read()
 
 # Filter all the taks along with their due dates
-tasker = email2do.msg2task(my_gmail.unread)
+tasker = email2do.emails2task(my_gmail.unread)
 
 # Agent to use the Tasker to create tasks in specific applications
 todoist_agent = todoistAgent(todoist_token)

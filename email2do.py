@@ -50,7 +50,7 @@ class gmail_agent: # This agent is responsible for handling all email via gmail
         return                
     # def msg_handler(self):
         
-class msg2task: # This agent is responsible for filtering out the tasks from the messages
+class emails2task: # This agent is responsible for filtering out the tasks from the messages
     def __init__(self,unread_threads):
         self.all_msgs = unread_threads
         self.all_tasks = []
@@ -59,18 +59,47 @@ class msg2task: # This agent is responsible for filtering out the tasks from the
     
     def find_new_tasks(self):
         for thread in self.all_msgs:
+            msg = thread.messages[0]
+            self.msg2task(msg) # Parses the one_task_threadthread into the task
             
             # Email with subject as a JSON task
-            if thread.messages[0].subject.startswith('{^project^:^') == True:
-                temp_task = task(msg = thread.messages[0])
+
+    def str2task(self,task_str,sent_on):
+        # If the string is one task
+        if task_str.startswith('{^project^:^') == True:
+            # Parse the task
+            temp_task = task(task_str = task_str, sent_on = sent_on)
+            
+            # Add the new task
+            self.all_tasks.append(temp_task.from_json())
+
+    def msg2task(self,msg):
+        # If the msg is one task
+        if msg.subject.startswith('{^project^:^') == True:
+            task_str = msg.subject
+            sent_on = msg.timestamp
+
+            self.str2task(task_str,sent_on)
+
+        # If the msg is a collection of multiple tasks
+        elif msg.subject == 'add_all':
+            sent_on = msg.timestamp
+        
+            # Parse the body of the message
+            msg_body = msg.body    
+            task_list = msg_body.split('\r\n')
+            
+            # Check each line of the body for tasks            
+            for task_str in task_list:
+                self.str2task(task_str, sent_on)
+                # temp_task = task(task_str = task_i, sent_on = sent_on)
                 
                 # Add the new task
-                self.all_tasks.append(temp_task.from_json())
-            
-            # Other cases can be added over time
-            
-        return
+                # self.all_tasks.append(temp_task.from_json())
 
+        # Other cases can be added over time
+        # return        
+        
 class generic_task: # This agent handles the task class - parses specific references to the common task object
     def __init__(self):
         # Define the default properties of the given task
@@ -84,7 +113,7 @@ class generic_task: # This agent handles the task class - parses specific refere
 
 
 class task(generic_task): # This agent handles the task class - parses specific references to the common task object
-    def __init__(self, msg):        
+    def __init__(self, task_str, sent_on):        
         # Define the default properties of the given task
         super().__init__()
         # Initializes the properties of the generic_task class
@@ -96,8 +125,8 @@ class task(generic_task): # This agent handles the task class - parses specific 
         # self.due_date = None       # Initializes the 'due_date' property as None     
         
         # Store the original string in the task class
-        self.task_str = msg.subject
-        self.sent_on = get_sched_time.date_agent(msg.timestamp)
+        self.task_str = task_str
+        self.sent_on = get_sched_time.date_agent(sent_on)
     
     def from_json(self):
         # Original json string def has ^ as the separators ; to be replaced with " before loading
