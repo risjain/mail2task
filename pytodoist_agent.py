@@ -59,7 +59,7 @@ class TodoistTask(generic_task):
 
         else: # Default priority - If no priority is specified
             task_priority = todoist.Priority.NORMAL
-            print('Specified priority not supported')
+            print('Specified priority not supported - changed to Normal')
         
         return task_priority
 
