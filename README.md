@@ -22,7 +22,16 @@ Installation
 
 Syntax of EMAILs
 ----------------
-Currently, I use a rather awkward JSON like subject line declaration. The syntax isn't pretty - so the usage is integrated with ESPANSO (https://github.com/federico-terzi/espanso) to have custom templates which make the awkward declarations a breeze.
+Tasks can be added via email into your task manager in three ways:
+```
+1) Single tasks (defined in the subject) 
+2) Multiple tasks in the email body (1 per line) - Subject says "add_all"
+3) Based on a template (or multiple sub-folders with their own tasks) - Subject says "add_toml"
+```
+
+*Single Tasks*
+
+The default task addition method uses an unusual JSON like subject line declaration. The syntax isn't pretty - so the usage is integrated with ESPANSO (https://github.com/federico-terzi/espanso) to have custom templates which make the awkward declarations a breeze.
 
     ^ is used as the separator instead of " - because I thought this is the least used character for subject lines. 
 
@@ -37,7 +46,49 @@ TIME_OFFSET can be in hours, days, weeks, months, or years (H,D,W,M,Y respective
 
 Priority: 0 - Not important, 1 - Low, 2 - Normal, 3 - High, 4 - Very high
 
-Espanso Templates
+*Multiple Tasks in the email body*
+The structure stays the same as (1) - except that the intent of adding multiple tasks is declared in the email subject (case-sensitive) - "add_all" without quotes.
+
+*Based on a template*
+
+Suppose we have an upcoming event with multiple tasks, sub-projects, their own tasks, etc. Using the default one/multiple task option will be too cumbersome. Therefore, now there is an option to define the nested heirarchy (not indent sensitive) as an email. /Writing a template might be just as cumbersome as point-and-click" and we will use different templates to largely eliminate that (Template to create templates ^_^)
+
+```
+[[proj_list]]                       <---- Declares the project/sub-project (Sub-projects will be proj_list.proj_list, and so on
+Parent = ^Test^		            <---- Name of the parent project (in the Root of the task manager)
+project = ^Sub-Proj 1^              <---- Name of the project to be created (A sub-project folder will be created -- for all the tasks in proj_list.task)
+ 
+[[proj_list.task]]		
+due_in = ^+4D^
+priority = ^2^
+title = ^Task in Sub-Proj 1^        <---- Description of the sub-task under the newly created folder
+
+[[proj_list.proj_list]]
+project = ^Sub-sub-Proj 1^          <---- Sub-folder created under Sub-proj 1
+ 
+[[proj_list.proj_list.task]]        <---- Task under sub-sub-proj 1
+due_in = ^+4h^
+Priority = ^2^
+title = ^Task in Sub-sub-proj 1^
+
+
+
+[[proj_list]]                       <---- Declares another project under the specified root folder
+Parent = ^Test^		            <---- Name of the parent project (in the Root of the task manager)
+project = ^Sub-Proj 2^              <---- Name of the project to be created (A sub-project folder will be created -- for all the tasks in proj_list.task)
+ 
+[[proj_list.task]]		
+due_in = ^+4D^
+priority = ^2^
+title = ^Task in Sub-Proj 2^        <---- Description of the sub-task under the newly created folder - Sub-proj 2
+
+```
+
+```
+Note: The routine doesn't handle case-sensitive arguments. This is one of the primary reason to encourage using snippets and other tools to handle the redundancy.
+```
+
+Espanso Templates (Optional, Highly Recommended)
 -----------------
 Espanso is such an excellent tool, with so many great features. Using two of its very useful features - Clipboard extension, and Passive mode (https://espanso.org/docs/).
 
@@ -54,17 +105,42 @@ Espanso is such an excellent tool, with so many great features. Using two of its
 
 The respective espanso setting is below:
 
+```
     - trigger: ":todoparse"
       replace: "{^project^:^$0$^, ^due_in^:^$1$^, ^priority^:^$2$^,^title^:^$3$^}"
       passive_only: true
+```
 
 3. At this point, you just send an email to the email id being monitored. The CRONTAB agent (or other update mechanism) will filter through all the unread emails (and can mark them as unread) and then update the tasks based on the emails with pre-defined subject line.
 
+4. Templates (TOML) - TOML is used to offer a visually readable, and easy to parse input format for the tool. The template format was defined in previous section. Here the corresponding espanso templates are presented (if you choose to use these).
+```
+    - trigger: ":topr" # To project
+      replace: ":totomlpr/$|$,{{clipboard}}/" # To TOML Project
+      vars:
+        - name: "clipboard"
+          type: "clipboard"
+
+    - trigger: ":tost" # To sub-task
+      replace: ":totomlst/{{clipboard}},$|$+2d,2/" # To TOML Sub-task
+      vars:
+        - name: "clipboard"
+          type: "clipboard"
+```
+```
+  - trigger: ":totomlpr" # To sub-task
+    replace: "[[proj_list]]\nparent = ^$0$^\nproject = ^$1$^\n" # To TOML Task
+    passive_only: true
+
+  - trigger: ":totomlst" # To sub-task
+    replace: "[[proj_list.task]]\ntitle = ^$0$^\ndue_in = ^$1$^\npriority = ^$2$^\n" # To TOML Task
+    passive_only: true
+```
+
+Disclaimer: Use of `espanso` is highly recommended but not mandatory. 
+```
 Suggestions/improvements are welcome to make this simpler. I have some ideas in the wishlist that would be neat to find their way into this utility.
-
-
-Disclaimer: Use of `espanso` is highly recommended. 
-
+```
 
 Vision
 ------
@@ -85,13 +161,13 @@ Ideally, the application will grow to support many more platforms - including Ta
 
 Wishlist
 --------
-- Defining a host of tasks based on custom templates also included in the project. I plan to add another field `template` to the JSON-like declaration. If non-empty, it can invoke a series of sequence of tasks - defined under the given project (Taskwarrior is a big inspiration). I see a template declaration system for TODOIST on github, but haven't used it.
+- (WIP - 1st Iteration done) Multiple tasks in one email - Subject may indicate that this email contains multiple tasks. The body of the email can then be interpreted as such.
+
+- (WIP - 1st iteration working) Defining a host of tasks based on custom templates also included in the project. I plan to add another field `template` to the JSON-like declaration. If non-empty, it can invoke a series of sequence of tasks - defined under the given project (Taskwarrior is a big inspiration). I see a template declaration system for TODOIST on github, but haven't used it.
 
 - Support for Taskwarrior - Use of UUIDs, conditional priority, and a host of other features makes Taskwarrior the ideal database. It would be great to use taskwarrior's structure as the database for cloud instance. This would be particularly helpful when expanding functionalities on queries, editing tasks, or when multiple projects may have similar sub-project titles (e.g. Meetings, etc).
 
 - NLP based contextual tagging - I wasn't able to find a reliable context aware filtering to make the subject line more intutive. This would remove the intricacies of the subject line declaration.
-
-- Multiple tasks in one email - Subject may indicate that this email contains multiple tasks. The body of the email can then be interpreted as such.
 
 - Ability to set reminders. Python interfaces of Taskwarrior can invoke these conditionally - and send reminders via emails. All the more reason to integrate Taskwarrior.
 
